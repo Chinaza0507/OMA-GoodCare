@@ -1,11 +1,12 @@
 import pg from 'pg'
 
 // Connection pool for the hosted PostgreSQL database (Neon / Supabase).
-// DATABASE_URL comes from the .env file.
+// DATABASE_URL comes from server/.env and should include ?sslmode=require.
 export const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : undefined,
 })
+
+export const query = (text, params) => pool.query(text, params)
 
 export async function checkDb() {
   if (!process.env.DATABASE_URL) return 'not configured'

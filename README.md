@@ -59,6 +59,8 @@ Requires Node.js 20+ and a PostgreSQL database (Neon or Supabase).
 cd server
 cp .env.example .env     # then fill in DATABASE_URL and JWT_SECRET
 npm install
+npm run migrate          # create the tables (safe to re-run)
+npm run seed             # add starter departments
 npm run dev              # http://localhost:5001  (check /api/health)
 
 # 2. Client (in a second terminal)
@@ -66,6 +68,27 @@ cd client
 npm install
 npm run dev              # http://localhost:5173
 ```
+
+### Creating staff and admin accounts
+
+Patients register through the app. Staff and admins are created from the terminal:
+
+```bash
+cd server
+NEW_USER_PASSWORD='choose-a-strong-password' npm run create-user -- "Full Name" name@example.com staff
+```
+
+Use `admin` instead of `staff` for admins.
+
+### API so far
+
+| Method | Path | Access |
+|---|---|---|
+| GET | `/api/health` | public |
+| GET | `/api/departments` | public |
+| POST | `/api/auth/register` | public (creates a patient) |
+| POST | `/api/auth/login` | public |
+| GET | `/api/auth/me` | signed in |
 
 The client proxies `/api` and `/socket.io` to the server, so no extra config is needed in development.
 The home page shows the API status once both are running.
