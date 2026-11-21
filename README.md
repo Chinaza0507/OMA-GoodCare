@@ -3,7 +3,7 @@
 A hospital queue booking web app. Patients book a slot and follow their live place in the queue; staff manage the queue; admins manage departments and doctors.
 
 ## Status
-Early development. Tech stack decided, scaffolding next.
+Early development. Client and server scaffolded; database schema and auth are next.
 
 ## Tech stack
 
@@ -46,10 +46,26 @@ OMA-Goodcare/
 ## Security and privacy
 
 This handles patient data, so:
-- Never commit secrets. Copy `.env.example` to `.env` and fill it in locally.
+- Never commit secrets. Copy `server/.env.example` to `server/.env` and fill it in locally.
 - Hash all passwords, validate all input, and enforce roles on the server.
 - Collect only the patient data the queue needs.
 
 ## Getting started
 
-Setup steps will be added once the scaffolding is in place.
+Requires Node.js 20+ and a PostgreSQL database (Neon or Supabase).
+
+```bash
+# 1. Server
+cd server
+cp .env.example .env     # then fill in DATABASE_URL and JWT_SECRET
+npm install
+npm run dev              # http://localhost:5001  (check /api/health)
+
+# 2. Client (in a second terminal)
+cd client
+npm install
+npm run dev              # http://localhost:5173
+```
+
+The client proxies `/api` and `/socket.io` to the server, so no extra config is needed in development.
+The home page shows the API status once both are running.
